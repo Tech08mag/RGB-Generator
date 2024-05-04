@@ -1,7 +1,27 @@
 from math import *
 from random import *
 from tkinter import *
+from PIL import Image, ImageTk
+import ctypes, os, sys
 
+myappid = u'RGB.generator.subproduct.version'
+ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID(myappid)
+
+window = Tk()
+# Set the taskbar icon
+window.geometry("500x300")
+window.resizable(True, True)
+window.title('RGB Generator')
+
+
+def resource_path(relative_path):
+    """ Get absolute path to resource, works for dev and for PyInstaller """
+    base_path = getattr(sys, '_MEIPASS', os.path.dirname(os.path.abspath(__file__)))
+    return os.path.join(base_path, relative_path)
+
+icon = Image.open(resource_path("rgb.ico"))
+icon = ImageTk.PhotoImage(icon)
+window.iconphoto(True, icon)
 
 def update(event):
     pattern = "#{:02x}{:02x}{:02x}"
@@ -10,7 +30,8 @@ def update(event):
                            scale3.get())
     label.config(bg=color)
 
-window = Tk()
+
+
 
 scale1 = Scale(window, orient=VERTICAL,        
                label="rot", to=225,
